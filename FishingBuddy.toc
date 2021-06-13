@@ -1,6 +1,6 @@
-## Interface: 11307
-## Title: Fishing Buddy (Classic)
-## Version: 0.7.4 Beta 2
+## Interface: 20501
+## Title: Fishing Buddy (Classic et TBC)
+## Version: 0.7.4 Beta 3 BC
 ## Notes: Help with fishing related tasks -- clothing, fish information, etc.
 ## Notes-deDE: Erleichtert das Angeln - Ausrüstung und Fish-Infos
 ## Notes-frFR: Vous facilite la vie de pecheur. Informations sur les poissons, changement d'habits, etc.
