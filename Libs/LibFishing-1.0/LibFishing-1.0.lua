@@ -36,7 +36,7 @@ if ( GetBuildInfo ) then
     WOW.major = tonumber(maj);
     WOW.minor = tonumber(min);
     WOW.dot = tonumber(dot);
-    WOW.classic = (_G.WOW_PROJECT_ID == _G.WOW_PROJECT_CLASSIC or _G.WOW_PROJECT_ID == _G.WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
+    WOW.classic = (_G.WOW_PROJECT_ID == _G.WOW_PROJECT_CLASSIC or _G.WOW_PROJECT_ID == _G.WOW_PROJECT_BURNING_CRUSADE_CLASSIC or _G.WOW_PROJECT_ID == _G.WOW_PROJECT_WRATH_CLASSIC)
 else
     WOW.major = 1;
     WOW.minor = 9;
