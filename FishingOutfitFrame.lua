@@ -283,11 +283,11 @@ local function FindFishingPoles()
 		tinsert(poles, MakeOutfitInfo(link));
 	end
 	for bag = BACKPACK_CONTAINER, NUM_BAG_SLOTS do
-		local numSlots = GetContainerNumSlots(bag);
+		local numSlots = C_Minimap.GetContainerNumSlots(bag);
 		if (numSlots > 0) then
 			-- check each slot in the bag
 			for slot=1, numSlots do
-				local link = GetContainerItemLink(bag, slot);
+				local link = C_Minimap.GetContainerItemLink(bag, slot);
 				if ( link ) then
 					if ( FL:IsFishingPole(link) ) then
 						tinsert(poles, MakeOutfitInfo(link));

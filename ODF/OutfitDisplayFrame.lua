@@ -40,12 +40,12 @@ local function Print(msg, r, g, b)
 end
 
 -- Based on code in QuickMountEquip
-local function SafeHookFunction(func, newfunc)
+local function SafeHookFunction(table, func, newfunc)
 	if ( type(newfunc) == "string" ) then
-		newfunc = _G[newfunc];
+		newfunc = table[newfunc];
 	end
-	if ( _G[func] ~= newfunc ) then
-		hooksecurefunc(func, newfunc);
+	if ( table[func] ~= newfunc ) then
+		hooksecurefunc(table,func, newfunc);
 		return true;
 	end
 	return false;
@@ -105,11 +105,11 @@ local function AcceptCursorItem(button)
 	if ( button ) then
 		local link, texture;
 		if ( OD_Track_Bag ) then
-			link = GetContainerItemLink(OD_Track_Bag, OD_Track_Slot);
-			texture = GetContainerItemInfo(OD_Track_Bag, OD_Track_Slot);
+			link =  C_Container.GetContainerItemLink(OD_Track_Bag, OD_Track_Slot);
+			texture =  C_Container.GetContainerItemInfo(OD_Track_Bag, OD_Track_Slot);
 		else
-			link = GetInventoryItemLink("player", OD_Track_Slot);
-			texture = GetInventoryItemTexture("player", OD_Track_Slot);
+			link =  C_Container.GetInventoryItemLink("player", OD_Track_Slot);
+			texture =  C_Container.GetInventoryItemTexture("player", OD_Track_Slot);
 		end
 		button.link = link;
 		button.color, button.item, button.name = FL:SplitLink(link);
@@ -217,7 +217,7 @@ end
 local function FreespaceCheck(bagtype)
 	local totalFree = 0;
 	for i = BACKPACK_CONTAINER, NUM_BAG_SLOTS do
-		freeSlots, bagFamily = GetContainerNumFreeSlots(i);
+		freeSlots, bagFamily = C_Minimap.GetContainerNumFreeSlots(i);
 		if ( bagFamily == 0 or (bagtype and bagFamily == bagtype)) then
 			totalFree = totalFree + freeSlots;
 		end
@@ -322,11 +322,11 @@ local function FindEmptyBagSlot(family, skipbag, skipcount)
 		-- already modified skipcount)
 		if ( not skipbag or skipbag ~= i ) then
 			-- Make sure this bag can hold what we need
-			local freeSlots, bagType = GetContainerNumFreeSlots(i);
+			local freeSlots, bagType = C_Minimap.GetContainerNumFreeSlots(i);
 			if bagType and ( (family == 0) or (bit.band(bagType, family) > 0) ) then
 				if ( freeSlots > skipcount ) then
-					for j=GetContainerNumSlots(i),1,-1 do
-						if not GetContainerItemInfo(i,j) then
+					for j=C_Minimap.GetContainerNumSlots(i),1,-1 do
+						if not C_Minimap.GetContainerItemInfo(i,j) then
 							 if skipcount == 0 then return i, j, skipcount; end
 							 skipcount = skipcount - 1;
 						 end  -- if empty
@@ -350,17 +350,17 @@ local function FindLastEmptyBagSlot(link, skipcount, bag_affinity, slot_affinity
 
 	-- try to put the item in the requested affinity, if possible
 	if bag_affinity and slot_affinity and 
-			not GetContainerItemInfo(bag_affinity, slot_affinity) then
+			not C_Minimap.GetContainerItemInfo(bag_affinity, slot_affinity) then
 		return bag_affinity, slot_affinity;
 	end
 
 	-- if we couldn't get the bag and slot we wanted, just try the same bag
 	if ( bag_affinity ) then
-		local freeSlots, bagType = GetContainerNumFreeSlots(bag_affinity);
+		local freeSlots, bagType = C_Minimap.GetContainerNumFreeSlots(bag_affinity);
 		if ( ((prefbag > 0) and (bit.band(prefbag, bagType) > 0)) or bagType == 0 ) then
 			if freeSlots > skipcount then
-				for j=GetContainerNumSlots(bag_affinity),1,-1 do
-					if not GetContainerItemInfo(bag_affinity,j) then
+				for j=C_Minimap.GetContainerNumSlots(bag_affinity),1,-1 do
+					if not C_Minimap.GetContainerItemInfo(bag_affinity,j) then
 						if skipcount == 0 then return bag_affinity,j; end
 						skipcount = skipcount - 1;
 					end -- if free space
@@ -424,7 +424,7 @@ local function IsItemLocked(bag, slot)
 	if not bag then
 		return IsInventoryItemLocked(slot);
 	else
-		local _,_,locked = GetContainerItemInfo(bag,slot);
+		local _,_,locked = C_Minimap.GetContainerItemInfo(bag,slot);
 		return locked;
 	end
 end
@@ -432,8 +432,8 @@ end
 local function IsAnyItemLocked()
 -- Checks all the bags and the equipped slots to see if any are still locked
 	for i = BACKPACK_CONTAINER, NUM_BAG_SLOTS do
-		for j=1,GetContainerNumSlots(i) do
-			local _,_,locked = GetContainerItemInfo(i,j);
+		for j=1,C_Minimap.GetContainerNumSlots(i) do
+			local _,_,locked = C_Minimap.GetContainerItemInfo(i,j);
 			if ( locked ) then
 				return true;
 			end
@@ -1163,12 +1163,12 @@ end
 
 local function OutfitDisplayFrame_OnLoad(self)
 	local temp = PickupContainerItem;
-	if ( SafeHookFunction("PickupContainerItem", ODF_PickupContainerItem) ) then
+	if ( SafeHookFunction(C_Container,"PickupContainerItem", ODF_PickupContainerItem) ) then
 		SavedPickupContainerItem = temp;
 	end
 
 			temp = PickupInventoryItem;
-	if ( SafeHookFunction("PickupInventoryItem", ODF_PickupInventoryItem) ) then
+	if ( SafeHookFunction(C_Container,"PickupInventoryItem", ODF_PickupInventoryItem) ) then
 		SavedPickupInventoryItem = temp;
 	end
 

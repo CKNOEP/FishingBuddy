@@ -127,7 +127,7 @@ local function PickLure()
             if ( NextLure and NextLure.id ) then
                 -- if the pole has an enchantment, we can assume it's got a lure on it (so far, anyway)
                 -- remove the main hand enchantment (since it's a fishing pole, we know what it is)
-                local startTime, duration, enable = GetItemCooldown(NextLure.id);
+                local startTime, duration, enable = C_Minimap.GetItemCooldown(NextLure.id);
                 if (startTime == 0) then
                     LSM:SetLastLure(NextLure)
                     return true, NextLure.id, NextLure.n;

@@ -38,14 +38,14 @@ local function FishTrackingEnable(enabled)
     local findid = FL:GetFindFishID();
     if ( findid ) then
         if enabled then
-            local _, _, active, _ = GetTrackingInfo(findid);
+            local _, _, active, _ = C_Minimap.GetTrackingInfo(findid);
             if (not active) then
                 unTrack = true;
-                SetTracking(findid, true);
+                C_Minimap.SetTracking(findid, true);
             end
         elseif unTrack then
             unTrack = false;
-            SetTracking(findid, false);
+            C_Minimap.SetTracking(findid, false);
         end
     end
 end

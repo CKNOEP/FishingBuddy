@@ -18,7 +18,7 @@ function FishingPlans:HaveThing(itemid, info)
 end
 
 function FishingPlans:ItemCooldownOn(id)
-    local start, duration, enable = GetItemCooldown(id);
+    local start, duration, enable = C_Minimap.GetItemCooldown(id);
     local et = (start + duration) - GetTime();
     if (et > 0) then
         return true;
