@@ -1168,7 +1168,7 @@ local function OutfitDisplayFrame_OnLoad(self)
 	end
 
 			temp = PickupInventoryItem;
-	if ( SafeHookFunction(C_Container,"PickupInventoryItem", ODF_PickupInventoryItem) ) then
+	if ( SafeHookFunction(_G,"PickupInventoryItem", ODF_PickupInventoryItem) ) then
 		SavedPickupInventoryItem = temp;
 	end
 

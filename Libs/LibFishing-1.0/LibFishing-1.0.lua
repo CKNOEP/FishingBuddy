@@ -458,7 +458,7 @@ function FishLib:UpdateLureInventory()
         local count = GetItemCount(id);
         -- does this lure have to be "worn"
         if ( count > 0 ) then
-            local startTime, _, _ = C_Minimap.GetItemCooldown(id);
+            local startTime, _, _ = C_Container.GetItemCooldown(id);
             if (startTime == 0) then
                 if (lure.w and self:IsWorn(id)) then
                     tinsert(lureinventory, lure);
@@ -557,7 +557,7 @@ end
 -- Deal with lures
 function FishLib:UseThisLure(lure, b, enchant, skill, level)
     if ( lure ) then
-        local startTime, _, _ = C_Minimap.GetItemCooldown(lure.id);
+        local startTime, _, _ = C_Container.GetItemCooldown(lure.id);
         -- already check for skill being nil, so that will skip the whole check with level
         -- skill = skill or 0;
         level = level or 0;
@@ -577,7 +577,7 @@ function FishLib:FindNextLure(b, state)
     for s=state+1,n,1 do
         if ( lureinventory[s] ) then
             local id = lureinventory[s].id;
-            local startTime, _, _ = C_Minimap.GetItemCooldown(id);
+            local startTime, _, _ = C_Container.GetItemCooldown(id);
             if ( startTime == 0 ) then
                 if ( not b or lureinventory[s].b > b ) then
                     return s, lureinventory[s];
@@ -653,7 +653,7 @@ function FishLib:FindBestHat()
     for _,hat in ipairs(FISHINGHATS) do
         local id = hat["id"]
         if GetItemCount(id) > 0 and self:IsWorn(id) then
-            local startTime, _, _ = C_Minimap.GetItemCooldown(id);
+            local startTime, _, _ = C_Container.GetItemCooldown(id);
             if ( startTime == 0 ) then
                 return 1, hat;
             end
